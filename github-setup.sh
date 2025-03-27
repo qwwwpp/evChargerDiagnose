@@ -82,12 +82,50 @@ git config --global user.email "$github_email"
 echo "https://$github_username:$github_token@github.com" > ~/.git-credentials
 chmod 600 ~/.git-credentials
 
+# Set the remote URL with embedded token for the push
+git remote set-url origin "https://$github_username:$github_token@github.com/$github_username/$repo_name.git"
+
 # Push to GitHub
 echo "Pushing your code to GitHub..."
-git push -u origin main || git push -u origin master
+if ! (git push -u origin main || git push -u origin master); then
+  echo ""
+  echo "=========================================================="
+  echo "                     PUSH FAILED                          "
+  echo "=========================================================="
+  echo ""
+  echo "Failed to push to GitHub. This could be due to:"
+  echo "1. The repository name is incorrect"
+  echo "2. Your GitHub token doesn't have the right permissions"
+  echo "3. You don't have write access to the repository"
+  echo ""
+  echo "Possible solutions:"
+  echo "- Make sure your token has the 'repo' scope"
+  echo "- Check that the repository name is correct (including case)"
+  echo "- Ensure you're using the owner's username if it's not your repo"
+  echo "- Try creating a new token at https://github.com/settings/tokens"
+  echo ""
+  echo "Do you want to try with a different token? (y/n)"
+  read retry_token
+  
+  if [ "$retry_token" = "y" ] || [ "$retry_token" = "Y" ]; then
+    echo "Enter your new GitHub Personal Access Token:"
+    read -s github_token
+    echo ""
+    
+    # Update the remote URL with the new token
+    git remote set-url origin "https://$github_username:$github_token@github.com/$github_username/$repo_name.git"
+    
+    echo "Trying to push again..."
+    git push -u origin main || git push -u origin master
+  fi
+else
+  echo "Push successful!"
+fi
 
-# Cleanup: remove temporary credential helper after 5 seconds
-sleep 5
+# Reset the remote URL to the regular form (without token)
+git remote set-url origin "https://github.com/$github_username/$repo_name.git"
+
+# Cleanup: remove temporary credential helper
 rm ~/.git-credentials
 
 echo ""
