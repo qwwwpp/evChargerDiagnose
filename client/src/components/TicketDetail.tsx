@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
@@ -11,6 +12,7 @@ interface TicketDetailProps {
 }
 
 export default function TicketDetail({ ticket }: TicketDetailProps) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("details");
 
   // Fetch diagnostic events data
@@ -148,25 +150,25 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
               value="details"
               className="data-[state=active]:text-teal-700 data-[state=active]:border-teal-700 data-[state=active]:shadow-none data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent px-4 py-2"
             >
-              Details
+              {t('ticketDetail.tabs.details')}
             </TabsTrigger>
             <TabsTrigger 
               value="diagnostics"
               className="data-[state=active]:text-teal-700 data-[state=active]:border-teal-700 data-[state=active]:shadow-none data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent px-4 py-2"
             >
-              Diagnostics
+              {t('ticketDetail.tabs.diagnostics')}
             </TabsTrigger>
             <TabsTrigger 
               value="history"
               className="data-[state=active]:text-teal-700 data-[state=active]:border-teal-700 data-[state=active]:shadow-none data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent px-4 py-2"
             >
-              History
+              {t('ticketDetail.tabs.history')}
             </TabsTrigger>
             <TabsTrigger 
               value="notes"
               className="data-[state=active]:text-teal-700 data-[state=active]:border-teal-700 data-[state=active]:shadow-none data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent px-4 py-2"
             >
-              Notes
+              {t('ticketDetail.tabs.notes')}
             </TabsTrigger>
           </TabsList>
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -13,6 +14,7 @@ interface TicketListProps {
 }
 
 export default function TicketList({ selectedTicketId, onSelectTicket }: TicketListProps) {
+  const { t } = useTranslation();
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("updatedAt");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -77,14 +79,14 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
       {/* Desktop Filter Panel */}
       <div className="hidden md:block border-b border-slate-200 p-4">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-lg font-semibold text-slate-800">Tickets</h1>
+          <h1 className="text-lg font-semibold text-slate-800">{t('nav.tickets')}</h1>
           <Link href="/new-ticket">
             <Button className="bg-teal-700 hover:bg-teal-800">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
-              New Ticket
+              {t('tickets.newTicket')}
             </Button>
           </Link>
         </div>
@@ -98,7 +100,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
           </div>
           <Input
             type="text"
-            placeholder="Search tickets..."
+            placeholder={t('tickets.searchPlaceholder')}
             className="pl-10"
             value={searchQuery}
             onChange={handleSearchChange}
@@ -106,7 +108,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
         </div>
         
         <div className="mb-4">
-          <label className="block text-sm font-medium text-slate-700 mb-1">Status</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1">{t('tickets.status')}</label>
           <div className="flex flex-wrap gap-2">
             <Button 
               variant={statusFilter === "all" ? "default" : "outline"}
@@ -114,7 +116,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
               size="sm"
               onClick={() => handleStatusFilterChange("all")}
             >
-              All
+              {t('tickets.statusAll')}
             </Button>
             <Button 
               variant={statusFilter === "open" ? "default" : "outline"}
@@ -122,7 +124,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
               size="sm"
               onClick={() => handleStatusFilterChange("open")}
             >
-              Open
+              {t('tickets.statusOpen')}
             </Button>
             <Button 
               variant={statusFilter === "in-progress" ? "default" : "outline"}
@@ -130,7 +132,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
               size="sm"
               onClick={() => handleStatusFilterChange("in-progress")}
             >
-              In Progress
+              {t('tickets.statusInProgress')}
             </Button>
             <Button 
               variant={statusFilter === "resolved" ? "default" : "outline"}
@@ -138,21 +140,21 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
               size="sm"
               onClick={() => handleStatusFilterChange("resolved")}
             >
-              Resolved
+              {t('tickets.statusResolved')}
             </Button>
           </div>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Sort By</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1">{t('tickets.sortBy')}</label>
           <Select value={sortBy} onValueChange={handleSortChange}>
             <SelectTrigger>
-              <SelectValue placeholder="Sort by" />
+              <SelectValue placeholder={t('tickets.sortByPlaceholder')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="updatedAt">Newest first</SelectItem>
-              <SelectItem value="createdAt">Oldest first</SelectItem>
-              <SelectItem value="priority">Priority (High to Low)</SelectItem>
+              <SelectItem value="updatedAt">{t('tickets.sortNewest')}</SelectItem>
+              <SelectItem value="createdAt">{t('tickets.sortOldest')}</SelectItem>
+              <SelectItem value="priority">{t('tickets.sortPriority')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -161,7 +163,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
       {/* Mobile filter bar */}
       <div className="md:hidden bg-white border-b border-slate-200 px-4 py-2">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-semibold text-slate-800">Tickets</h1>
+          <h1 className="text-lg font-semibold text-slate-800">{t('nav.tickets')}</h1>
           <div className="flex space-x-2">
             <Button variant="outline" size="icon" className="h-9 w-9 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -189,11 +191,11 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
       {/* Ticket List */}
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center p-8">
-          <div className="text-slate-500">Loading tickets...</div>
+          <div className="text-slate-500">{t('tickets.loading')}</div>
         </div>
       ) : error ? (
         <div className="flex-1 flex items-center justify-center p-8">
-          <div className="text-red-500">Failed to load tickets</div>
+          <div className="text-red-500">{t('tickets.loadError')}</div>
         </div>
       ) : tickets && tickets.length > 0 ? (
         <div className="flex-1 overflow-auto">
@@ -208,7 +210,9 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
                   #{ticket.id} - {ticket.title}
                 </h3>
                 <span className={`text-xs px-2 py-1 rounded-full flex-shrink-0 ${getStatusBadgeClasses(ticket.priority === 'high' ? 'high' : ticket.status)}`}>
-                  {ticket.priority === 'high' ? 'High Priority' : ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1).replace(/-/g, ' ')}
+                  {ticket.priority === 'high' ? t('tickets.highPriority') : ticket.status === 'open' ? t('tickets.statusOpen') : 
+                   ticket.status === 'in-progress' ? t('tickets.statusInProgress') : 
+                   ticket.status === 'resolved' ? t('tickets.statusResolved') : ticket.status}
                 </span>
               </div>
               <div className="mb-2 text-xs text-slate-500 flex items-center">
@@ -228,7 +232,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12 6 12 12 16 14" />
                   </svg>
-                  <span>Updated {formatDistanceToNow(new Date(ticket.updatedAt), { addSuffix: true })}</span>
+                  <span>{t('tickets.updated')} {formatDistanceToNow(new Date(ticket.updatedAt), { addSuffix: true })}</span>
                 </div>
                 <div className="flex items-center text-xs text-slate-500">
                   <span className="flex items-center bg-slate-100 px-2 py-0.5 rounded-full">
@@ -253,7 +257,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
         </div>
       ) : (
         <div className="flex-1 flex items-center justify-center p-8">
-          <div className="text-slate-500">No tickets found</div>
+          <div className="text-slate-500">{t('tickets.noTickets')}</div>
         </div>
       )}
     </div>
