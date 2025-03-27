@@ -124,7 +124,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                 </svg>
-                {t('ticketDetail.edit')}
+                {t('ticket.edit')}
               </Button>
               {ticket.status !== 'resolved' && (
                 <Button size="sm" className="gap-1.5 bg-amber-500 hover:bg-amber-600" onClick={handleResolveTicket}>
@@ -132,7 +132,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
                   </svg>
-                  {t('ticketDetail.markResolved')}
+                  {t('ticket.markResolved')}
                 </Button>
               )}
             </div>
@@ -329,7 +329,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                           <p className="text-sm text-slate-600 mt-1">{history.description}</p>
                           <div className="mt-2 flex items-center text-xs text-slate-500">
                             <span>{formatDate(history.performedAt)}</span>
-                            <span className="mx-1">{`{t("common.bulletPoint")}`}</span>
+                            <span className="mx-1">{t("common.bulletPoint")}</span>
                             <span>{t('ticketDetail.technician')}: {history.performedBy}</span>
                           </div>
                         </div>
@@ -422,7 +422,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                           <p className="text-sm text-slate-600 mt-1">{history.description}</p>
                           <div className="mt-2 flex items-center text-xs text-slate-500">
                             <span>{formatDate(history.performedAt)}</span>
-                            <span className="mx-1">{`{t("common.bulletPoint")}`}</span>
+                            <span className="mx-1">{t("common.bulletPoint")}</span>
                             <span>{t('ticketDetail.technician')}: {history.performedBy}</span>
                           </div>
                         </div>
