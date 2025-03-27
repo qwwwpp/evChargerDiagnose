@@ -78,18 +78,18 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
         <div className="border-b border-slate-200 p-4 md:p-6">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-2 mb-2">
                 <h2 className="text-xl font-semibold text-slate-900">Ticket #{ticket.id}</h2>
-                <span className={`text-xs px-2 py-1 rounded-full ${
-                  ticket.priority === 'high' 
-                    ? getStatusBadgeClasses('high') 
-                    : getStatusBadgeClasses(ticket.status)
-                }`}>
-                  {ticket.priority === 'high' 
-                    ? 'High Priority' 
-                    : ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1).replace(/-/g, ' ')
-                  }
-                </span>
+                <div className="flex flex-wrap gap-2">
+                  {ticket.status !== 'resolved' && ticket.priority === 'high' && (
+                    <span className={`text-xs px-2 py-1 rounded-full ${getStatusBadgeClasses('high')}`}>
+                      High Priority
+                    </span>
+                  )}
+                  <span className={`text-xs px-2 py-1 rounded-full ${getStatusBadgeClasses(ticket.status)}`}>
+                    {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1).replace(/-/g, ' ')}
+                  </span>
+                </div>
               </div>
               <h3 className="text-lg text-slate-700 mb-2">{ticket.title}</h3>
               <div className="flex flex-wrap gap-3 text-sm text-slate-600">
