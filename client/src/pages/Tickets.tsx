@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TicketList from "@/components/TicketList";
 import TicketDetail from "@/components/TicketDetail";
@@ -10,13 +10,15 @@ export default function Tickets() {
   // Fetch tickets to find a default selected ticket
   const { data: tickets, isLoading } = useQuery<Ticket[]>({
     queryKey: ['/api/tickets'],
-    onSuccess: (data) => {
-      // Automatically select the first ticket if none is selected
-      if (data && data.length > 0 && !selectedTicket) {
-        setSelectedTicket(data[0]);
-      }
-    }
+    // Using onSuccess in useEffect instead of in query options
   });
+  
+  // Handle default ticket selection
+  useEffect(() => {
+    if (tickets && tickets.length > 0 && !selectedTicket) {
+      setSelectedTicket(tickets[0]);
+    }
+  }, [tickets, selectedTicket]);
 
   const handleSelectTicket = (ticket: Ticket) => {
     setSelectedTicket(ticket);
@@ -28,7 +30,7 @@ export default function Tickets() {
   return (
     <main className="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto w-full">
       {/* On mobile: Show either the list or the detail */}
-      <div className={`md:block ${showDetail ? 'hidden' : 'block'} flex-grow md:flex-grow-0`}>
+      <div className={`md:block ${showDetail ? 'hidden' : 'block'} md:w-1/3 lg:w-1/4`}>
         <TicketList 
           selectedTicketId={selectedTicket?.id} 
           onSelectTicket={(ticket) => {
@@ -39,7 +41,7 @@ export default function Tickets() {
       </div>
 
       {/* Ticket detail */}
-      <div className={`md:block ${!showDetail ? 'hidden' : 'block'} flex-grow`}>
+      <div className={`md:block ${!showDetail ? 'hidden' : 'block'} md:w-2/3 lg:w-3/4`}>
         {selectedTicket ? (
           <TicketDetail ticket={selectedTicket} />
         ) : (

@@ -72,7 +72,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
   };
 
   return (
-    <div className="w-full md:w-2/3 bg-white">
+    <div className="w-full bg-white">
       <div className="h-full flex flex-col">
         {/* Ticket Header */}
         <div className="border-b border-slate-200 p-4 md:p-6">
