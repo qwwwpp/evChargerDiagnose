@@ -1,0 +1,314 @@
+import { 
+  users, type User, type InsertUser,
+  tickets, type Ticket, type InsertTicket,
+  events, type Event, type InsertEvent,
+  maintenanceHistories, type MaintenanceHistory, type InsertMaintenanceHistory
+} from "@shared/schema";
+
+// modify the interface with any CRUD methods
+// you might need
+
+export interface IStorage {
+  // User operations
+  getUser(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+  
+  // Ticket operations
+  getTickets(): Promise<Ticket[]>;
+  getTicket(id: number): Promise<Ticket | undefined>;
+  createTicket(ticket: InsertTicket): Promise<Ticket>;
+  updateTicket(id: number, ticket: Partial<Ticket>): Promise<Ticket | undefined>;
+  deleteTicket(id: number): Promise<boolean>;
+  searchTickets(query: string): Promise<Ticket[]>;
+  
+  // Event operations
+  getEvents(ticketId: number): Promise<Event[]>;
+  createEvent(event: InsertEvent): Promise<Event>;
+  
+  // Maintenance history operations
+  getMaintenanceHistories(ticketId: number): Promise<MaintenanceHistory[]>;
+  createMaintenanceHistory(history: InsertMaintenanceHistory): Promise<MaintenanceHistory>;
+}
+
+export class MemStorage implements IStorage {
+  private users: Map<number, User>;
+  private tickets: Map<number, Ticket>;
+  private events: Map<number, Event>;
+  private maintenanceHistories: Map<number, MaintenanceHistory>;
+  
+  userCurrentId: number;
+  ticketCurrentId: number;
+  eventCurrentId: number;
+  maintenanceHistoryCurrentId: number;
+
+  constructor() {
+    this.users = new Map();
+    this.tickets = new Map();
+    this.events = new Map();
+    this.maintenanceHistories = new Map();
+    
+    this.userCurrentId = 1;
+    this.ticketCurrentId = 1;
+    this.eventCurrentId = 1;
+    this.maintenanceHistoryCurrentId = 1;
+    
+    // Add some initial data
+    this.initializeData();
+  }
+
+  private initializeData() {
+    // Create tickets
+    const ticket1: InsertTicket = {
+      title: "Charger not powering on",
+      description: "Unit shows no power indication. Customer reports breaker has not tripped. Last maintenance was 3 months ago.",
+      location: "Parkside Apartments",
+      locationDetails: "4502 Main St",
+      status: "in-progress",
+      priority: "normal",
+      chargerModel: "PowerFlow AC200",
+      chargerType: "Level 2 Charger",
+      chargerSerialNumber: "PF-2022-45678",
+      reportedBy: "Jane Smith",
+      assignedTo: "Technician #08",
+      installedAt: new Date("2022-01-15"),
+      lastMaintenance: new Date("2022-10-20"),
+      firmwareVersion: "v2.1.3",
+      connectivity: "WiFi",
+      siteContact: "Mark Johnson",
+      contactPhone: "(555) 789-0123",
+      operatingHours: "6:00 AM - 10:00 PM"
+    };
+    
+    const ticket2: InsertTicket = {
+      title: "Connection errors during charging",
+      description: "Unit is showing intermittent connection errors during charging sessions. Error code E-304 appears on display. Multiple customer complaints.",
+      location: "Metro Charging Hub",
+      locationDetails: "123 Electric Ave",
+      status: "open",
+      priority: "high",
+      chargerModel: "PowerFlow DC5000",
+      chargerType: "DC Fast Charger",
+      chargerSerialNumber: "PF-2023-76548",
+      reportedBy: "Michael Chen",
+      assignedTo: "Technician #14",
+      installedAt: new Date("2022-03-15"),
+      lastMaintenance: new Date("2023-01-10"),
+      firmwareVersion: "v3.2.1",
+      connectivity: "WiFi + Cellular Backup",
+      siteContact: "Sarah Johnson",
+      contactPhone: "(555) 123-4567",
+      operatingHours: "24/7 Access"
+    };
+    
+    const ticket3: InsertTicket = {
+      title: "Display screen flickering",
+      description: "Display screen is flickering and sometimes goes blank during charging sessions. Charging functionality appears to be working normally.",
+      location: "Downtown Parking Garage",
+      locationDetails: "78 Pine St",
+      status: "open",
+      priority: "normal",
+      chargerModel: "PowerFlow AC300",
+      chargerType: "Level 2 Charger",
+      chargerSerialNumber: "PF-2022-34567",
+      reportedBy: "David Wilson",
+      assignedTo: "Technician #05",
+      installedAt: new Date("2022-05-10"),
+      lastMaintenance: new Date("2022-11-15"),
+      firmwareVersion: "v2.3.0",
+      connectivity: "WiFi",
+      siteContact: "Robert Taylor",
+      contactPhone: "(555) 456-7890",
+      operatingHours: "24/7 Access"
+    };
+    
+    const ticket4: InsertTicket = {
+      title: "Incorrect charging rate",
+      description: "Customers reporting unit delivers lower charging rate than advertised. Should deliver 50kW but appears to max out at 30kW.",
+      location: "Riverfront Mall",
+      locationDetails: "890 Waterside Dr",
+      status: "resolved",
+      priority: "normal",
+      chargerModel: "PowerFlow DC3000",
+      chargerType: "DC Fast Charger",
+      chargerSerialNumber: "PF-2021-56789",
+      reportedBy: "Emma Rodriguez",
+      assignedTo: "Technician #11",
+      installedAt: new Date("2021-11-20"),
+      lastMaintenance: new Date("2022-09-05"),
+      firmwareVersion: "v3.0.2",
+      connectivity: "WiFi + Ethernet",
+      siteContact: "Lisa Brown",
+      contactPhone: "(555) 987-6543",
+      operatingHours: "9:00 AM - 9:00 PM"
+    };
+    
+    this.createTicket(ticket1);
+    this.createTicket(ticket2);
+    this.createTicket(ticket3);
+    this.createTicket(ticket4);
+    
+    // Create events for ticket #2
+    const events: InsertEvent[] = [
+      {
+        ticketId: 2,
+        timestamp: new Date("2023-05-12T08:23:00"),
+        eventType: "Power On",
+        value: "System Check: Pass",
+        status: "Normal"
+      },
+      {
+        ticketId: 2,
+        timestamp: new Date("2023-05-12T09:15:00"),
+        eventType: "Charging Session #1458",
+        value: "Connection Established",
+        status: "Normal"
+      },
+      {
+        ticketId: 2,
+        timestamp: new Date("2023-05-12T09:24:00"),
+        eventType: "Charging Session #1458",
+        value: "Error E-304",
+        status: "Error"
+      },
+      {
+        ticketId: 2,
+        timestamp: new Date("2023-05-12T10:05:00"),
+        eventType: "System Diagnostic",
+        value: "Auto-Reset Completed",
+        status: "Warning"
+      },
+      {
+        ticketId: 2,
+        timestamp: new Date("2023-05-12T11:32:00"),
+        eventType: "Charging Session #1459",
+        value: "Error E-187",
+        status: "Error"
+      }
+    ];
+    
+    events.forEach(event => this.createEvent(event));
+    
+    // Create maintenance history for ticket #2
+    const histories: InsertMaintenanceHistory[] = [
+      {
+        ticketId: 2,
+        title: "Scheduled Maintenance",
+        description: "Performed firmware update to v3.2.1, cleaned connectors, tested power output across all ports. All systems functioning normally.",
+        performedBy: "Alex Rodriguez",
+        performedAt: new Date("2023-01-10")
+      },
+      {
+        ticketId: 2,
+        title: "Repair Visit",
+        description: "Replaced damaged charging cable on port #2. Calibrated voltage sensor. Verified stable operation under load.",
+        performedBy: "Marcus Johnson",
+        performedAt: new Date("2022-10-05")
+      },
+      {
+        ticketId: 2,
+        title: "Initial Installation",
+        description: "Completed installation and commissioning of DC Fast Charger. Connected to network and verified remote monitoring functionality.",
+        performedBy: "Installation Team: Alpha Group",
+        performedAt: new Date("2022-03-15")
+      }
+    ];
+    
+    histories.forEach(history => this.createMaintenanceHistory(history));
+  }
+
+  // User methods
+  async getUser(id: number): Promise<User | undefined> {
+    return this.users.get(id);
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(
+      (user) => user.username === username,
+    );
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const id = this.userCurrentId++;
+    const user: User = { ...insertUser, id };
+    this.users.set(id, user);
+    return user;
+  }
+  
+  // Ticket methods
+  async getTickets(): Promise<Ticket[]> {
+    return Array.from(this.tickets.values());
+  }
+  
+  async getTicket(id: number): Promise<Ticket | undefined> {
+    return this.tickets.get(id);
+  }
+  
+  async createTicket(insertTicket: InsertTicket): Promise<Ticket> {
+    const id = this.ticketCurrentId++;
+    const createdAt = new Date();
+    const updatedAt = createdAt;
+    const ticket: Ticket = { ...insertTicket, id, createdAt, updatedAt };
+    this.tickets.set(id, ticket);
+    return ticket;
+  }
+  
+  async updateTicket(id: number, updatedFields: Partial<Ticket>): Promise<Ticket | undefined> {
+    const ticket = this.tickets.get(id);
+    if (!ticket) return undefined;
+    
+    const updatedTicket: Ticket = {
+      ...ticket,
+      ...updatedFields,
+      updatedAt: new Date()
+    };
+    
+    this.tickets.set(id, updatedTicket);
+    return updatedTicket;
+  }
+  
+  async deleteTicket(id: number): Promise<boolean> {
+    return this.tickets.delete(id);
+  }
+  
+  async searchTickets(query: string): Promise<Ticket[]> {
+    const lowerCaseQuery = query.toLowerCase();
+    return Array.from(this.tickets.values()).filter(ticket => 
+      ticket.title.toLowerCase().includes(lowerCaseQuery) ||
+      ticket.description.toLowerCase().includes(lowerCaseQuery) ||
+      ticket.location.toLowerCase().includes(lowerCaseQuery) ||
+      ticket.chargerModel.toLowerCase().includes(lowerCaseQuery) ||
+      ticket.chargerSerialNumber.toLowerCase().includes(lowerCaseQuery)
+    );
+  }
+  
+  // Event methods
+  async getEvents(ticketId: number): Promise<Event[]> {
+    return Array.from(this.events.values())
+      .filter(event => event.ticketId === ticketId)
+      .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+  }
+  
+  async createEvent(insertEvent: InsertEvent): Promise<Event> {
+    const id = this.eventCurrentId++;
+    const event: Event = { ...insertEvent, id };
+    this.events.set(id, event);
+    return event;
+  }
+  
+  // Maintenance history methods
+  async getMaintenanceHistories(ticketId: number): Promise<MaintenanceHistory[]> {
+    return Array.from(this.maintenanceHistories.values())
+      .filter(history => history.ticketId === ticketId)
+      .sort((a, b) => b.performedAt.getTime() - a.performedAt.getTime());
+  }
+  
+  async createMaintenanceHistory(insertHistory: InsertMaintenanceHistory): Promise<MaintenanceHistory> {
+    const id = this.maintenanceHistoryCurrentId++;
+    const history: MaintenanceHistory = { ...insertHistory, id };
+    this.maintenanceHistories.set(id, history);
+    return history;
+  }
+}
+
+export const storage = new MemStorage();
