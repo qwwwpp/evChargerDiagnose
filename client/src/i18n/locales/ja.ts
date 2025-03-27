@@ -1,4 +1,7 @@
 export const ja = {
+  // Common elements
+  "common.notAvailable": "なし",
+  "common.bulletPoint": "•",
   // Navigation
   "app.title": "エレクトロチャージ",
   "nav.tickets": "チケット",

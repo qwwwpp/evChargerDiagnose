@@ -1,4 +1,7 @@
 export const en = {
+  // Common elements
+  "common.notAvailable": "N/A",
+  "common.bulletPoint": "•",
   // Navigation
   "app.title": "ElectroCharge",
   "nav.tickets": "Tickets",
@@ -71,6 +74,7 @@ export const en = {
   "ticketDetail.location": "Location",
   "ticketDetail.problemDescription": "Problem Description",
   "ticketDetail.errorCodes": "Error Codes Reported",
+  "ticketDetail.errorCodesReported": "Error Codes Reported",
   "ticketDetail.recentDiagnostic": "Recent Diagnostic Data",
   "ticketDetail.chargerModel": "Charger Model",
   "ticketDetail.serialNumber": "Serial Number",
@@ -84,6 +88,14 @@ export const en = {
   "ticketDetail.siteContact": "Site Contact",
   "ticketDetail.contactPhone": "Contact Phone",
   "ticketDetail.operatingHours": "Operating Hours",
+  "ticketDetail.reportedBy": "Reported By",
+  "ticketDetail.assignedTo": "Assigned To",
+  "ticketDetail.unassigned": "Unassigned",
+  "ticketDetail.highPriority": "High Priority",
+  "ticketDetail.ticket": "Ticket",
+  "ticketDetail.statusValues.offlineResolved": "Offline (Resolved)",
+  "ticketDetail.statusValues.onlineWithErrors": "Online (With Errors)",
+  "ticketDetail.statusValues.onlineWithIssues": "Online (With Issues)",
   
   // Dashboard
   "dashboard.title": "Dashboard",

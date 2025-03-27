@@ -1,4 +1,7 @@
 export const zh = {
+  // Common elements
+  "common.notAvailable": "不可用",
+  "common.bulletPoint": "•",
   // Navigation
   "app.title": "电力充电",
   "nav.tickets": "工单",
@@ -71,6 +74,7 @@ export const zh = {
   "ticketDetail.location": "位置",
   "ticketDetail.problemDescription": "问题描述",
   "ticketDetail.errorCodes": "报告的错误代码",
+  "ticketDetail.errorCodesReported": "报告的错误代码",
   "ticketDetail.recentDiagnostic": "最近的诊断数据",
   "ticketDetail.chargerModel": "充电器型号",
   "ticketDetail.serialNumber": "序列号",
@@ -84,6 +88,14 @@ export const zh = {
   "ticketDetail.siteContact": "现场联系人",
   "ticketDetail.contactPhone": "联系电话",
   "ticketDetail.operatingHours": "运营时间",
+  "ticketDetail.reportedBy": "报告人",
+  "ticketDetail.assignedTo": "处理人",
+  "ticketDetail.unassigned": "未分配",
+  "ticketDetail.highPriority": "高优先级",
+  "ticketDetail.ticket": "工单",
+  "ticketDetail.statusValues.offlineResolved": "离线（已解决）",
+  "ticketDetail.statusValues.onlineWithErrors": "在线（有错误）",
+  "ticketDetail.statusValues.onlineWithIssues": "在线（有问题）",
   
   // Dashboard
   "dashboard.title": "仪表盘",

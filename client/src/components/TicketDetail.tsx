@@ -69,7 +69,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
   };
 
   const formatDate = (date: Date | string | null | undefined) => {
-    if (!date) return "N/A";
+    if (!date) return t('common.notAvailable');
     return format(new Date(date), "MMMM d, yyyy");
   };
 
@@ -198,10 +198,10 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                     <div className="text-sm font-medium text-slate-900">{formatDate(ticket.lastMaintenance)}</div>
                     
                     <div className="text-sm text-slate-500">{t('ticketDetail.firmwareVersion')}</div>
-                    <div className="text-sm font-medium text-slate-900">{ticket.firmwareVersion || 'N/A'}</div>
+                    <div className="text-sm font-medium text-slate-900">{ticket.firmwareVersion || t('common.notAvailable')}</div>
                     
                     <div className="text-sm text-slate-500">{t('ticketDetail.connectivity')}</div>
-                    <div className="text-sm font-medium text-slate-900">{ticket.connectivity || 'N/A'}</div>
+                    <div className="text-sm font-medium text-slate-900">{ticket.connectivity || t('common.notAvailable')}</div>
                     
                     <div className="text-sm text-slate-500">{t('ticketDetail.status')}</div>
                     <div className="text-sm font-medium text-slate-900">
@@ -236,15 +236,15 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                 <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <p className="text-xs text-slate-500">{t('ticketDetail.siteContact')}</p>
-                    <p className="text-sm font-medium text-slate-900">{ticket.siteContact || 'N/A'}</p>
+                    <p className="text-sm font-medium text-slate-900">{ticket.siteContact || t('common.notAvailable')}</p>
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">{t('ticketDetail.contactPhone')}</p>
-                    <p className="text-sm font-medium text-slate-900">{ticket.contactPhone || 'N/A'}</p>
+                    <p className="text-sm font-medium text-slate-900">{ticket.contactPhone || t('common.notAvailable')}</p>
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">{t('ticketDetail.operatingHours')}</p>
-                    <p className="text-sm font-medium text-slate-900">{ticket.operatingHours || 'N/A'}</p>
+                    <p className="text-sm font-medium text-slate-900">{ticket.operatingHours || t('common.notAvailable')}</p>
                   </div>
                 </div>
               </div>
@@ -329,7 +329,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                           <p className="text-sm text-slate-600 mt-1">{history.description}</p>
                           <div className="mt-2 flex items-center text-xs text-slate-500">
                             <span>{formatDate(history.performedAt)}</span>
-                            <span className="mx-1">•</span>
+                            <span className="mx-1">{`{t("common.bulletPoint")}`}</span>
                             <span>{t('ticketDetail.technician')}: {history.performedBy}</span>
                           </div>
                         </div>
@@ -422,7 +422,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                           <p className="text-sm text-slate-600 mt-1">{history.description}</p>
                           <div className="mt-2 flex items-center text-xs text-slate-500">
                             <span>{formatDate(history.performedAt)}</span>
-                            <span className="mx-1">•</span>
+                            <span className="mx-1">{`{t("common.bulletPoint")}`}</span>
                             <span>{t('ticketDetail.technician')}: {history.performedBy}</span>
                           </div>
                         </div>

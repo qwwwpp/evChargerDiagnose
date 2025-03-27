@@ -1,4 +1,7 @@
 export const de = {
+  // Common elements
+  "common.notAvailable": "N/A",
+  "common.bulletPoint": "•",
   // Navigation
   "app.title": "ElektroLadung",
   "nav.tickets": "Tickets",
