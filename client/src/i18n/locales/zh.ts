@@ -100,4 +100,22 @@ export const zh = {
   "form.submit": "提交",
   "form.cancel": "取消",
   "form.save": "保存",
+  
+  // Diagnostic data section
+  "ticketDetail.diagnosticData": "诊断数据",
+  "ticketDetail.maintenanceHistory": "维护历史",
+  "ticketDetail.loadingDiagnosticData": "加载诊断数据中",
+  "ticketDetail.noDiagnosticData": "没有可用的诊断数据",
+  "ticketDetail.loadingMaintenanceHistory": "加载维护历史中",
+  "ticketDetail.noMaintenanceHistory": "没有可用的维护历史",
+  "ticketDetail.noNotes": "此工单暂无备注",
+  "ticketDetail.addNote": "添加备注",
+  "ticketDetail.exportLogData": "导出日志数据",
+  "ticketDetail.runRemoteDiagnostic": "运行远程诊断",
+  
+  // Table columns
+  "ticketDetail.table.timestamp": "时间戳",
+  "ticketDetail.table.event": "事件",
+  "ticketDetail.table.value": "数值", 
+  "ticketDetail.table.status": "状态",
 };

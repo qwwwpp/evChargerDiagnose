@@ -58,4 +58,34 @@ export const ja = {
   "form.submit": "送信",
   "form.cancel": "キャンセル",
   "form.save": "保存",
+  
+  // Ticket detail tabs
+  "ticketDetail.tabs.details": "詳細",
+  "ticketDetail.tabs.diagnostics": "診断",
+  "ticketDetail.tabs.history": "履歴",
+  "ticketDetail.tabs.notes": "メモ",
+  
+  // Ticket sections
+  "ticketDetail.deviceInfo": "デバイス情報",
+  "ticketDetail.location": "場所",
+  "ticketDetail.problemDescription": "問題の説明",
+  "ticketDetail.errorCodes": "エラーコード",
+  
+  // Diagnostic data section
+  "ticketDetail.diagnosticData": "診断データ",
+  "ticketDetail.maintenanceHistory": "メンテナンス履歴",
+  "ticketDetail.loadingDiagnosticData": "診断データを読み込み中",
+  "ticketDetail.noDiagnosticData": "診断データがありません",
+  "ticketDetail.loadingMaintenanceHistory": "メンテナンス履歴を読み込み中",
+  "ticketDetail.noMaintenanceHistory": "メンテナンス履歴がありません",
+  "ticketDetail.noNotes": "このチケットにメモはまだありません",
+  "ticketDetail.addNote": "メモを追加",
+  "ticketDetail.exportLogData": "ログデータのエクスポート",
+  "ticketDetail.runRemoteDiagnostic": "リモート診断を実行",
+  
+  // Table columns
+  "ticketDetail.table.timestamp": "タイムスタンプ",
+  "ticketDetail.table.event": "イベント",
+  "ticketDetail.table.value": "値", 
+  "ticketDetail.table.status": "ステータス",
 };

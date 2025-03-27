@@ -175,7 +175,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
           <TabsContent value="details" className="flex-grow overflow-auto p-4 md:p-6 mt-0 border-0">
             {/* Device Information Section */}
             <div className="mb-8">
-              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">Device Information</h4>
+              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">{t('ticketDetail.deviceInfo')}</h4>
               <div className="bg-slate-50 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <div className="grid grid-cols-2 gap-2">
@@ -218,7 +218,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
 
             {/* Location Section */}
             <div className="mb-8">
-              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">Location</h4>
+              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">{t('ticketDetail.location')}</h4>
               <div className="bg-slate-50 rounded-lg p-4">
                 <div className="mb-3">
                   <p className="text-sm font-medium text-slate-900">{ticket.location}</p>
@@ -252,12 +252,12 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
 
             {/* Problem Description Section */}
             <div className="mb-8">
-              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">Problem Description</h4>
+              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">{t('ticketDetail.problemDescription')}</h4>
               <div className="bg-slate-50 rounded-lg p-4">
                 <p className="text-sm text-slate-700 mb-4">{ticket.description}</p>
                 {events && events.length > 0 && (
                   <div className="border-t border-slate-200 pt-4 mt-4">
-                    <p className="text-xs font-medium text-slate-500 mb-2">Error Codes Reported:</p>
+                    <p className="text-xs font-medium text-slate-500 mb-2">{t('ticketDetail.errorCodesReported')}:</p>
                     <div className="flex flex-wrap gap-2">
                       {/* Extract unique error codes from events */}
                       {Array.from(new Set(
@@ -282,16 +282,16 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
             {/* Diagnostic Data Section for Details Tab */}
             {events && events.length > 0 && (
               <div className="mb-8">
-                <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">Recent Diagnostic Data</h4>
+                <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">{t('ticketDetail.recentDiagnosticData')}</h4>
                 <div className="bg-slate-50 rounded-lg p-4">
                   <div className="mb-4 overflow-x-auto">
                     <table className="min-w-full divide-y divide-slate-200">
                       <thead>
                         <tr>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Timestamp</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Event</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Value</th>
-                          <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('ticketDetail.table.timestamp')}</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('ticketDetail.table.event')}</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('ticketDetail.table.value')}</th>
+                          <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('ticketDetail.table.status')}</th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-slate-200">
@@ -319,7 +319,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
             {/* Maintenance History Section for Details Tab */}
             {maintenanceHistories && maintenanceHistories.length > 0 && (
               <div>
-                <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">Recent Maintenance</h4>
+                <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">{t('ticketDetail.recentMaintenance')}</h4>
                 <div className="space-y-4">
                   {maintenanceHistories.slice(0, 1).map((history) => (
                     <div key={history.id} className="bg-slate-50 rounded-lg p-4">
@@ -343,11 +343,11 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
 
           <TabsContent value="diagnostics" className="flex-grow overflow-auto p-4 md:p-6 mt-0 border-0">
             <div className="mb-4">
-              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">Diagnostic Data</h4>
+              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">{t('ticketDetail.diagnosticData')}</h4>
               <div className="bg-slate-50 rounded-lg p-4">
                 {eventsLoading ? (
                   <div className="text-center py-6">
-                    <p className="text-slate-500">Loading diagnostic data...</p>
+                    <p className="text-slate-500">{t('ticketDetail.loadingDiagnosticData')}...</p>
                   </div>
                 ) : events && events.length > 0 ? (
                   <>
@@ -355,10 +355,10 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                       <table className="min-w-full divide-y divide-slate-200">
                         <thead>
                           <tr>
-                            <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Timestamp</th>
-                            <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Event</th>
-                            <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Value</th>
-                            <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('ticketDetail.table.timestamp')}</th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('ticketDetail.table.event')}</th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('ticketDetail.table.value')}</th>
+                            <th className="px-3 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">{t('ticketDetail.table.status')}</th>
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-slate-200">
@@ -385,19 +385,19 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                           <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
                           <polyline points="14 2 14 8 20 8" />
                         </svg>
-                        Export Log Data
+                        {t('ticketDetail.exportLogData')}
                       </Button>
                       <Button variant="link" size="sm" className="text-teal-700 hover:text-teal-800 h-auto p-0">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M13 2L3 14h9l-1 8 10-16h-9l1-4z" />
                         </svg>
-                        Run Remote Diagnostic
+                        {t('ticketDetail.runRemoteDiagnostic')}
                       </Button>
                     </div>
                   </>
                 ) : (
                   <div className="text-center py-6">
-                    <p className="text-slate-500">No diagnostic data available</p>
+                    <p className="text-slate-500">{t('ticketDetail.noDiagnosticData')}</p>
                   </div>
                 )}
               </div>
@@ -406,11 +406,11 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
 
           <TabsContent value="history" className="flex-grow overflow-auto p-4 md:p-6 mt-0 border-0">
             <div>
-              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">Maintenance History</h4>
+              <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">{t('ticketDetail.maintenanceHistory')}</h4>
               
               {historiesLoading ? (
                 <div className="text-center py-6">
-                  <p className="text-slate-500">Loading maintenance history...</p>
+                  <p className="text-slate-500">{t('ticketDetail.loadingMaintenanceHistory')}...</p>
                 </div>
               ) : maintenanceHistories && maintenanceHistories.length > 0 ? (
                 <div className="space-y-4">
@@ -432,7 +432,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <p className="text-slate-500">No maintenance history available</p>
+                  <p className="text-slate-500">{t('ticketDetail.noMaintenanceHistory')}</p>
                 </div>
               )}
             </div>
@@ -447,9 +447,9 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                 <line x1="16" y1="17" x2="8" y2="17" />
                 <polyline points="10 9 9 9 8 9" />
               </svg>
-              <p className="text-slate-600">No notes have been added to this ticket yet.</p>
+              <p className="text-slate-600">{t('ticketDetail.noNotes')}</p>
               <Button className="mt-4 bg-teal-700 hover:bg-teal-800">
-                Add Note
+                {t('ticketDetail.addNote')}
               </Button>
             </div>
           </TabsContent>

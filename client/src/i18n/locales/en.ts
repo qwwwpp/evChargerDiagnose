@@ -100,4 +100,22 @@ export const en = {
   "form.submit": "Submit",
   "form.cancel": "Cancel",
   "form.save": "Save",
+  
+  // Diagnostic data section
+  "ticketDetail.diagnosticData": "Diagnostic Data",
+  "ticketDetail.maintenanceHistory": "Maintenance History",
+  "ticketDetail.loadingDiagnosticData": "Loading diagnostic data",
+  "ticketDetail.noDiagnosticData": "No diagnostic data available",
+  "ticketDetail.loadingMaintenanceHistory": "Loading maintenance history",
+  "ticketDetail.noMaintenanceHistory": "No maintenance history available",
+  "ticketDetail.noNotes": "No notes have been added to this ticket yet.",
+  "ticketDetail.addNote": "Add Note",
+  "ticketDetail.exportLogData": "Export Log Data",
+  "ticketDetail.runRemoteDiagnostic": "Run Remote Diagnostic",
+  
+  // Table columns
+  "ticketDetail.table.timestamp": "Timestamp",
+  "ticketDetail.table.event": "Event",
+  "ticketDetail.table.value": "Value", 
+  "ticketDetail.table.status": "Status",
 };

@@ -58,4 +58,34 @@ export const es = {
   "form.submit": "Enviar",
   "form.cancel": "Cancelar",
   "form.save": "Guardar",
+  
+  // Ticket detail tabs
+  "ticketDetail.tabs.details": "Detalles",
+  "ticketDetail.tabs.diagnostics": "Diagnóstico",
+  "ticketDetail.tabs.history": "Historial",
+  "ticketDetail.tabs.notes": "Notas",
+  
+  // Ticket sections
+  "ticketDetail.deviceInfo": "Información del Dispositivo",
+  "ticketDetail.location": "Ubicación",
+  "ticketDetail.problemDescription": "Descripción del Problema",
+  "ticketDetail.errorCodes": "Códigos de Error",
+  
+  // Diagnostic data section
+  "ticketDetail.diagnosticData": "Datos de Diagnóstico",
+  "ticketDetail.maintenanceHistory": "Historial de Mantenimiento",
+  "ticketDetail.loadingDiagnosticData": "Cargando datos de diagnóstico",
+  "ticketDetail.noDiagnosticData": "No hay datos de diagnóstico disponibles",
+  "ticketDetail.loadingMaintenanceHistory": "Cargando historial de mantenimiento",
+  "ticketDetail.noMaintenanceHistory": "No hay historial de mantenimiento disponible",
+  "ticketDetail.noNotes": "Este ticket aún no tiene notas agregadas.",
+  "ticketDetail.addNote": "Agregar Nota",
+  "ticketDetail.exportLogData": "Exportar Datos de Registro",
+  "ticketDetail.runRemoteDiagnostic": "Ejecutar Diagnóstico Remoto",
+  
+  // Table columns
+  "ticketDetail.table.timestamp": "Marca de tiempo",
+  "ticketDetail.table.event": "Evento",
+  "ticketDetail.table.value": "Valor", 
+  "ticketDetail.table.status": "Estado",
 };
