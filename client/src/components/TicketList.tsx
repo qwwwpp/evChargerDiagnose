@@ -73,7 +73,7 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
   };
 
   return (
-    <div className="w-full md:w-1/3 bg-white md:border-r border-slate-200 min-h-0 overflow-auto flex flex-col">
+    <div className="w-full bg-white md:border-r border-slate-200 min-h-0 overflow-auto flex flex-col">
       {/* Desktop Filter Panel */}
       <div className="hidden md:block border-b border-slate-200 p-4">
         <div className="flex justify-between items-center mb-4">
@@ -200,14 +200,14 @@ export default function TicketList({ selectedTicketId, onSelectTicket }: TicketL
           {tickets.map((ticket) => (
             <div 
               key={ticket.id}
-              className={`border-b border-slate-200 p-4 hover:bg-slate-50 cursor-pointer ${selectedTicketId === ticket.id ? 'bg-slate-50' : ''}`}
+              className={`border-b border-slate-200 p-3 md:p-4 hover:bg-slate-50 cursor-pointer ${selectedTicketId === ticket.id ? 'bg-slate-50' : ''}`}
               onClick={() => onSelectTicket(ticket)}
             >
               <div className="flex justify-between items-start mb-2">
-                <h3 className="text-sm font-medium text-slate-900 truncate">
+                <h3 className="text-sm font-medium text-slate-900 truncate pr-2 flex-shrink">
                   #{ticket.id} - {ticket.title}
                 </h3>
-                <span className={`text-xs px-2 py-1 rounded-full ${getStatusBadgeClasses(ticket.priority === 'high' ? 'high' : ticket.status)}`}>
+                <span className={`text-xs px-2 py-1 rounded-full flex-shrink-0 ${getStatusBadgeClasses(ticket.priority === 'high' ? 'high' : ticket.status)}`}>
                   {ticket.priority === 'high' ? 'High Priority' : ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1).replace(/-/g, ' ')}
                 </span>
               </div>
