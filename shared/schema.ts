@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -83,3 +83,34 @@ export const insertMaintenanceHistorySchema = createInsertSchema(maintenanceHist
 
 export type InsertMaintenanceHistory = z.infer<typeof insertMaintenanceHistorySchema>;
 export type MaintenanceHistory = typeof maintenanceHistories.$inferSelect;
+
+// Emoji reactions schema
+export const emojiReactions = pgTable("emoji_reactions", {
+  id: serial("id").primaryKey(),
+  ticketId: integer("ticket_id").notNull(),
+  emoji: text("emoji").notNull(),
+  count: integer("count").notNull().default(1),
+  createdBy: text("created_by").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  users: jsonb("users").notNull(),
+});
+
+export const insertEmojiReactionSchema = createInsertSchema(emojiReactions).omit({
+  id: true,
+  count: true,
+  createdAt: true
+});
+
+export type InsertEmojiReaction = z.infer<typeof insertEmojiReactionSchema>;
+export type EmojiReaction = typeof emojiReactions.$inferSelect;
+
+// Custom types for frontend use
+export type EmojiReactionWithUsers = {
+  id: number;
+  ticketId: number;
+  emoji: string;
+  count: number;
+  createdBy: string;
+  createdAt: Date;
+  users: string[];
+};

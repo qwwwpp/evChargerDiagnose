@@ -132,4 +132,10 @@ export const zh = {
   "ticketDetail.table.event": "事件",
   "ticketDetail.table.value": "数值", 
   "ticketDetail.table.status": "状态",
+  
+  // Emoji reactions
+  "add_reaction": "添加表情",
+  
+  // Emoji reactions
+  "add_reaction": "添加表情",
 };

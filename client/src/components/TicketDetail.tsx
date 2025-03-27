@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
 import type { Ticket, Event, MaintenanceHistory } from "@shared/schema";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { EmojiReactions } from "@/components/EmojiReactions";
 
 interface TicketDetailProps {
   ticket: Ticket;
@@ -276,6 +277,12 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                     </div>
                   </div>
                 )}
+                
+                {/* Emoji Reactions Section */}
+                <div className="border-t border-slate-200 pt-4 mt-4">
+                  <p className="text-xs font-medium text-slate-500 mb-2">Quick Reactions:</p>
+                  <EmojiReactions ticketId={ticket.id} currentUser="Tech1" className="mt-2" />
+                </div>
               </div>
             </div>
 

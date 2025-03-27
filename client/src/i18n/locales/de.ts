@@ -99,4 +99,7 @@ export const de = {
   "ticketDetail.table.event": "Ereignis",
   "ticketDetail.table.value": "Wert", 
   "ticketDetail.table.status": "Status",
+  
+  // Emoji reactions
+  "add_reaction": "Reaktion hinzufügen",
 };

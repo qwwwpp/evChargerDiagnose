@@ -2,7 +2,8 @@ import {
   users, type User, type InsertUser,
   tickets, type Ticket, type InsertTicket,
   events, type Event, type InsertEvent,
-  maintenanceHistories, type MaintenanceHistory, type InsertMaintenanceHistory
+  maintenanceHistories, type MaintenanceHistory, type InsertMaintenanceHistory,
+  emojiReactions, type EmojiReaction, type InsertEmojiReaction, type EmojiReactionWithUsers
 } from "@shared/schema";
 
 // modify the interface with any CRUD methods
@@ -29,6 +30,11 @@ export interface IStorage {
   // Maintenance history operations
   getMaintenanceHistories(ticketId: number): Promise<MaintenanceHistory[]>;
   createMaintenanceHistory(history: InsertMaintenanceHistory): Promise<MaintenanceHistory>;
+  
+  // Emoji reaction operations
+  getEmojiReactions(ticketId: number): Promise<EmojiReactionWithUsers[]>;
+  addEmojiReaction(reaction: InsertEmojiReaction): Promise<EmojiReactionWithUsers>;
+  removeEmojiReaction(reactionId: number, username: string): Promise<EmojiReactionWithUsers | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -36,22 +42,26 @@ export class MemStorage implements IStorage {
   private tickets: Map<number, Ticket>;
   private events: Map<number, Event>;
   private maintenanceHistories: Map<number, MaintenanceHistory>;
+  private emojiReactions: Map<number, EmojiReaction>;
   
   userCurrentId: number;
   ticketCurrentId: number;
   eventCurrentId: number;
   maintenanceHistoryCurrentId: number;
+  emojiReactionCurrentId: number;
 
   constructor() {
     this.users = new Map();
     this.tickets = new Map();
     this.events = new Map();
     this.maintenanceHistories = new Map();
+    this.emojiReactions = new Map();
     
     this.userCurrentId = 1;
     this.ticketCurrentId = 1;
     this.eventCurrentId = 1;
     this.maintenanceHistoryCurrentId = 1;
+    this.emojiReactionCurrentId = 1;
     
     // Add some initial data
     this.initializeData();
@@ -215,6 +225,30 @@ export class MemStorage implements IStorage {
     ];
     
     histories.forEach(history => this.createMaintenanceHistory(history));
+    
+    // Create some example emoji reactions for ticket #2
+    const emojiReactions: InsertEmojiReaction[] = [
+      {
+        ticketId: 2,
+        emoji: "👍",
+        createdBy: "Michael Chen",
+        users: ["Michael Chen", "Sarah Johnson"] as any
+      },
+      {
+        ticketId: 2,
+        emoji: "🔧",
+        createdBy: "Technician #14",
+        users: ["Technician #14"] as any
+      },
+      {
+        ticketId: 2,
+        emoji: "⚡",
+        createdBy: "Sarah Johnson",
+        users: ["Sarah Johnson", "Michael Chen", "Technician #14"] as any
+      }
+    ];
+    
+    emojiReactions.forEach(reaction => this.addEmojiReaction(reaction));
   }
 
   // User methods
@@ -308,6 +342,153 @@ export class MemStorage implements IStorage {
     const history: MaintenanceHistory = { ...insertHistory, id };
     this.maintenanceHistories.set(id, history);
     return history;
+  }
+  
+  // Emoji reaction methods
+  async getEmojiReactions(ticketId: number): Promise<EmojiReactionWithUsers[]> {
+    return Array.from(this.emojiReactions.values())
+      .filter(reaction => reaction.ticketId === ticketId)
+      .map(reaction => {
+        const users = reaction.users as unknown as string[];
+        return {
+          id: reaction.id,
+          ticketId: reaction.ticketId,
+          emoji: reaction.emoji,
+          count: reaction.count,
+          createdBy: reaction.createdBy,
+          createdAt: reaction.createdAt,
+          users
+        };
+      });
+  }
+  
+  async addEmojiReaction(insertReaction: InsertEmojiReaction): Promise<EmojiReactionWithUsers> {
+    // Check if the same emoji already exists for this ticket
+    const existingReaction = Array.from(this.emojiReactions.values()).find(
+      reaction => reaction.ticketId === insertReaction.ticketId && 
+                 reaction.emoji === insertReaction.emoji
+    );
+    
+    if (existingReaction) {
+      // Check if user already reacted with this emoji
+      const users = existingReaction.users as unknown as string[];
+      
+      if (!users.includes(insertReaction.createdBy)) {
+        // Add user to the reaction
+        const updatedUsers = [...users, insertReaction.createdBy];
+        const updatedCount = existingReaction.count + 1;
+        
+        // Update the reaction
+        const updatedReaction: EmojiReaction = {
+          ...existingReaction,
+          count: updatedCount,
+          users: updatedUsers as any
+        };
+        
+        this.emojiReactions.set(existingReaction.id, updatedReaction);
+        
+        // Return updated reaction
+        return {
+          id: updatedReaction.id,
+          ticketId: updatedReaction.ticketId,
+          emoji: updatedReaction.emoji,
+          count: updatedReaction.count,
+          createdBy: updatedReaction.createdBy,
+          createdAt: updatedReaction.createdAt,
+          users: updatedUsers
+        };
+      } else {
+        // User already reacted with this emoji, return the existing reaction
+        return {
+          id: existingReaction.id,
+          ticketId: existingReaction.ticketId,
+          emoji: existingReaction.emoji,
+          count: existingReaction.count,
+          createdBy: existingReaction.createdBy,
+          createdAt: existingReaction.createdAt,
+          users
+        };
+      }
+    } else {
+      // Create a new reaction
+      const id = this.emojiReactionCurrentId++;
+      const createdAt = new Date();
+      const users = [insertReaction.createdBy];
+      
+      const reaction: EmojiReaction = {
+        ...insertReaction,
+        id,
+        count: 1,
+        createdAt,
+        users: users as any
+      };
+      
+      this.emojiReactions.set(id, reaction);
+      
+      // Return new reaction
+      return {
+        id: reaction.id,
+        ticketId: reaction.ticketId,
+        emoji: reaction.emoji,
+        count: reaction.count,
+        createdBy: reaction.createdBy,
+        createdAt: reaction.createdAt,
+        users
+      };
+    }
+  }
+  
+  async removeEmojiReaction(reactionId: number, username: string): Promise<EmojiReactionWithUsers | undefined> {
+    const reaction = this.emojiReactions.get(reactionId);
+    
+    if (!reaction) {
+      return undefined;
+    }
+    
+    const users = reaction.users as unknown as string[];
+    
+    if (!users.includes(username)) {
+      // User has not reacted with this emoji
+      return {
+        id: reaction.id,
+        ticketId: reaction.ticketId,
+        emoji: reaction.emoji,
+        count: reaction.count,
+        createdBy: reaction.createdBy,
+        createdAt: reaction.createdAt,
+        users
+      };
+    }
+    
+    // Remove user from the reaction
+    const updatedUsers = users.filter(user => user !== username);
+    const updatedCount = reaction.count - 1;
+    
+    if (updatedCount <= 0) {
+      // No more reactions, remove it
+      this.emojiReactions.delete(reactionId);
+      return undefined;
+    }
+    
+    // Update the reaction
+    const updatedReaction: EmojiReaction = {
+      ...reaction,
+      count: updatedCount,
+      users: updatedUsers as any
+    };
+    
+    this.emojiReactions.set(reactionId, updatedReaction);
+    
+    // Return updated reaction
+    return {
+      id: updatedReaction.id,
+      ticketId: updatedReaction.ticketId,
+      emoji: updatedReaction.emoji,
+      count: updatedReaction.count,
+      createdBy: updatedReaction.createdBy,
+      createdAt: updatedReaction.createdAt,
+      users: updatedUsers
+    };
   }
 }
 

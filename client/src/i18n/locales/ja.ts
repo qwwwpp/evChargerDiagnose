@@ -99,4 +99,7 @@ export const ja = {
   "ticketDetail.table.event": "イベント",
   "ticketDetail.table.value": "値", 
   "ticketDetail.table.status": "ステータス",
+  
+  // Emoji reactions
+  "add_reaction": "リアクション追加",
 };
