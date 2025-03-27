@@ -48,10 +48,18 @@ export const ja = {
   
   // Dashboard
   "dashboard.title": "ダッシュボード",
-  "dashboard.summary": "概要",
+  "dashboard.summary": "チケット合計",
   "dashboard.openTickets": "未対応チケット",
   "dashboard.resolvedToday": "今日解決済み",
   "dashboard.averageResolution": "平均解決時間",
+  "dashboard.chargerTypes": "充電器タイプ",
+  "tickets.statusOpen": "未対応",
+  "tickets.statusInProgress": "対応中",
+  "tickets.statusResolved": "解決済み",
+  "tickets.highPriority": "高優先度",
+  "tickets.normalPriority": "通常優先度",
+  "tickets.loading": "チケットを読み込み中...",
+  "tickets.searchPlaceholder": "チケットを検索...",
   
   // Knowledge Base
   "knowledgeBase.title": "ナレッジベース",

@@ -99,10 +99,12 @@ export const zh = {
   
   // Dashboard
   "dashboard.title": "仪表盘",
-  "dashboard.summary": "摘要",
+  "dashboard.summary": "工单总数",
   "dashboard.openTickets": "待处理工单",
   "dashboard.resolvedToday": "今日已解决",
   "dashboard.averageResolution": "平均解决时间",
+  "dashboard.chargerTypes": "充电器类型",
+  "tickets.normalPriority": "普通优先级",
   
   // Knowledge Base
   "knowledgeBase.title": "知识库",

@@ -1,8 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import type { Ticket } from "@shared/schema";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { data: tickets, isLoading } = useQuery<Ticket[]>({
     queryKey: ['/api/tickets'],
     refetchOnWindowFocus: false,
@@ -26,18 +28,18 @@ export default function Dashboard() {
   return (
     <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 pb-16 md:pb-6">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-slate-900">{t('dashboard.title')}</h1>
       </div>
 
       {isLoading ? (
-        <div className="text-center py-8">Loading dashboard data...</div>
+        <div className="text-center py-8">{t('tickets.loading')}</div>
       ) : (
         <>
           {/* Stats cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-slate-500">Total Tickets</CardTitle>
+                <CardTitle className="text-sm font-medium text-slate-500">{t('dashboard.summary')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{totalTickets}</div>
@@ -46,7 +48,7 @@ export default function Dashboard() {
             
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-slate-500">Open Tickets</CardTitle>
+                <CardTitle className="text-sm font-medium text-slate-500">{t('dashboard.openTickets')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-blue-600">{openTickets}</div>
@@ -55,7 +57,7 @@ export default function Dashboard() {
             
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-slate-500">In Progress</CardTitle>
+                <CardTitle className="text-sm font-medium text-slate-500">{t('tickets.statusInProgress')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-amber-600">{inProgressTickets}</div>
@@ -64,7 +66,7 @@ export default function Dashboard() {
             
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-slate-500">High Priority</CardTitle>
+                <CardTitle className="text-sm font-medium text-slate-500">{t('tickets.highPriority')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-red-600">{highPriorityTickets}</div>
@@ -76,7 +78,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card className="lg:col-span-2">
               <CardHeader>
-                <CardTitle>Recent Tickets</CardTitle>
+                <CardTitle>{t('tickets.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
@@ -84,10 +86,10 @@ export default function Dashboard() {
                     <thead>
                       <tr className="bg-slate-100">
                         <th className="p-2">ID</th>
-                        <th className="p-2">Title</th>
-                        <th className="p-2">Status</th>
-                        <th className="p-2">Priority</th>
-                        <th className="p-2">Location</th>
+                        <th className="p-2">{t('ticket.description')}</th>
+                        <th className="p-2">{t('tickets.status')}</th>
+                        <th className="p-2">{t('tickets.priority')}</th>
+                        <th className="p-2">{t('tickets.location')}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -101,14 +103,16 @@ export default function Dashboard() {
                               ticket.status === 'in-progress' ? 'bg-amber-100 text-amber-800' :
                               'bg-green-100 text-green-800'
                             }`}>
-                              {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1).replace(/-/g, ' ')}
+                              {ticket.status === 'open' ? t('tickets.statusOpen') :
+                               ticket.status === 'in-progress' ? t('tickets.statusInProgress') :
+                               t('tickets.statusResolved')}
                             </span>
                           </td>
                           <td className="p-2">
                             <span className={`px-2 py-1 text-xs rounded-full ${
                               ticket.priority === 'high' ? 'bg-red-100 text-red-800' : 'bg-slate-100 text-slate-800'
                             }`}>
-                              {ticket.priority.charAt(0).toUpperCase() + ticket.priority.slice(1)}
+                              {ticket.priority === 'high' ? t('tickets.highPriority') : t('tickets.normalPriority')}
                             </span>
                           </td>
                           <td className="p-2">{ticket.location}</td>
@@ -122,7 +126,7 @@ export default function Dashboard() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Charger Types</CardTitle>
+                <CardTitle>{t('dashboard.chargerTypes')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">

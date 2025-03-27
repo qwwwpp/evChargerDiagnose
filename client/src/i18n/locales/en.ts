@@ -99,10 +99,12 @@ export const en = {
   
   // Dashboard
   "dashboard.title": "Dashboard",
-  "dashboard.summary": "Summary",
+  "dashboard.summary": "Total Tickets",
   "dashboard.openTickets": "Open Tickets",
   "dashboard.resolvedToday": "Resolved Today",
   "dashboard.averageResolution": "Avg. Resolution Time",
+  "dashboard.chargerTypes": "Charger Types",
+  "tickets.normalPriority": "Normal Priority",
   
   // Knowledge Base
   "knowledgeBase.title": "Knowledge Base",

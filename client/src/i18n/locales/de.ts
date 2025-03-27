@@ -48,10 +48,18 @@ export const de = {
   
   // Dashboard
   "dashboard.title": "Dashboard",
-  "dashboard.summary": "Zusammenfassung",
+  "dashboard.summary": "Gesamt Tickets",
   "dashboard.openTickets": "Offene Tickets",
   "dashboard.resolvedToday": "Heute gelöst",
   "dashboard.averageResolution": "Durchschn. Lösungszeit",
+  "dashboard.chargerTypes": "Ladegerättypen",
+  "tickets.statusOpen": "Offen",
+  "tickets.statusInProgress": "In Bearbeitung",
+  "tickets.statusResolved": "Gelöst",
+  "tickets.highPriority": "Hohe Priorität",
+  "tickets.normalPriority": "Normale Priorität",
+  "tickets.loading": "Lade Tickets...",
+  "tickets.searchPlaceholder": "Tickets suchen...",
   
   // Knowledge Base
   "knowledgeBase.title": "Wissensdatenbank",
