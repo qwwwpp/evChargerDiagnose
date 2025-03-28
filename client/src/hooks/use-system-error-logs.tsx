@@ -4,7 +4,7 @@ import { getQueryFn } from "@/lib/queryClient";
 
 export function useSystemErrorLogs(ticketId: number) {
   return useQuery<SysErrorLog[]>({
-    queryKey: [`/api/tickets/${ticketId}/system-error-logs`],
+    queryKey: [`/charging/sys_error_log?id=${ticketId}`],
     queryFn: getQueryFn({ on401: "returnNull" }),
     enabled: !!ticketId,
   });

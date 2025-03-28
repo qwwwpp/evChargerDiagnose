@@ -440,10 +440,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   }
   
-  // System Error Log routes
-  app.get("/api/tickets/:id/system-error-logs", async (req: Request, res: Response) => {
+  // System Error Log routes - updated endpoint
+  app.get("/charging/sys_error_log", async (req: Request, res: Response) => {
     try {
-      const ticketId = parseInt(req.params.id);
+      const ticketId = parseInt(req.query.id as string);
       if (isNaN(ticketId)) {
         return res.status(400).json({ message: "Invalid ticket ID" });
       }
