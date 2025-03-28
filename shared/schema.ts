@@ -114,3 +114,17 @@ export type EmojiReactionWithUsers = {
   createdAt: Date;
   users: string[];
 };
+
+// System error log schema
+export type SysErrorLog = {
+  id: number;
+  timestamp: number;
+  createTime: string;
+  ip: string;
+  tags: string[];
+  moduleName: string;
+  errorCode: string;
+  action: string;
+  description: string;
+  info: Record<string, any>;
+};

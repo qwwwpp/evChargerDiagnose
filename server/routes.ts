@@ -9,7 +9,8 @@ import {
   insertMaintenanceHistorySchema,
   insertEmojiReactionSchema,
   type Ticket,
-  type EmojiReactionWithUsers
+  type EmojiReactionWithUsers,
+  type SysErrorLog
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -438,6 +439,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('Error broadcasting reactions:', error);
     }
   }
+  
+  // System Error Log routes
+  app.get("/api/tickets/:id/system-error-logs", async (req: Request, res: Response) => {
+    try {
+      const ticketId = parseInt(req.params.id);
+      if (isNaN(ticketId)) {
+        return res.status(400).json({ message: "Invalid ticket ID" });
+      }
+      
+      const ticket = await storage.getTicket(ticketId);
+      if (!ticket) {
+        return res.status(404).json({ message: "Ticket not found" });
+      }
+      
+      const errorLogs = await storage.getSystemErrorLogs(ticketId);
+      res.json(errorLogs);
+    } catch (error) {
+      console.error("Error fetching system error logs:", error);
+      res.status(500).json({ message: "Failed to fetch system error logs" });
+    }
+  });
 
   return httpServer;
 }

@@ -135,4 +135,10 @@ export const en = {
   
   // Emoji reactions
   "add_reaction": "Add Reaction",
+  
+  // System error logs
+  "ticketDetail.systemErrorLogs.title": "System Error Logs",
+  "ticketDetail.systemErrorLogs.noLogs": "No system error logs available",
+  "ticketDetail.systemErrorLogs.additionalInfo": "Additional Information",
+  "ticketDetail.systemErrorLogs.loading": "Loading system error logs...",
 };

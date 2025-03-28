@@ -3,7 +3,8 @@ import {
   tickets, type Ticket, type InsertTicket,
   events, type Event, type InsertEvent,
   maintenanceHistories, type MaintenanceHistory, type InsertMaintenanceHistory,
-  emojiReactions, type EmojiReaction, type InsertEmojiReaction, type EmojiReactionWithUsers
+  emojiReactions, type EmojiReaction, type InsertEmojiReaction, type EmojiReactionWithUsers,
+  type SysErrorLog
 } from "@shared/schema";
 
 // modify the interface with any CRUD methods
@@ -35,6 +36,9 @@ export interface IStorage {
   getEmojiReactions(ticketId: number): Promise<EmojiReactionWithUsers[]>;
   addEmojiReaction(reaction: InsertEmojiReaction): Promise<EmojiReactionWithUsers>;
   removeEmojiReaction(reactionId: number, username: string): Promise<EmojiReactionWithUsers | undefined>;
+  
+  // System error log operations
+  getSystemErrorLogs(ticketId: number): Promise<SysErrorLog[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -489,6 +493,97 @@ export class MemStorage implements IStorage {
       createdAt: updatedReaction.createdAt,
       users: updatedUsers
     };
+  }
+  
+  // System error log methods
+  async getSystemErrorLogs(ticketId: number): Promise<SysErrorLog[]> {
+    // In a real application, this would fetch actual logs from a database or API
+    // Here, we'll return hardcoded sample data based on the ticket ID
+    
+    const currentDate = new Date();
+    
+    // Create sample error logs with different patterns based on the ticket ID
+    const sampleLogs: SysErrorLog[] = [
+      {
+        id: 1001,
+        timestamp: currentDate.getTime() - 3600000, // 1 hour ago
+        createTime: new Date(currentDate.getTime() - 3600000).toISOString(),
+        ip: "192.168.1.100",
+        tags: ["charger", "connection", "error"],
+        moduleName: "ConnectionManager",
+        errorCode: "E-304",
+        action: "CONNECT",
+        description: "Failed to establish secure connection with payment processor",
+        info: {
+          requestUri: "/api/payment/process",
+          errorDetails: "TLS handshake timeout after 30s"
+        }
+      },
+      {
+        id: 1002,
+        timestamp: currentDate.getTime() - 7200000, // 2 hours ago
+        createTime: new Date(currentDate.getTime() - 7200000).toISOString(),
+        ip: "192.168.1.100",
+        tags: ["charger", "system", "warning"],
+        moduleName: "PowerManagement",
+        errorCode: "E-187",
+        action: "POWER_DELIVERY",
+        description: "Voltage fluctuation detected outside of normal parameters",
+        info: {
+          voltage: "242V (expected 220-240V)",
+          fluctuation: "±8V"
+        }
+      },
+      {
+        id: 1003,
+        timestamp: currentDate.getTime() - 86400000, // 1 day ago
+        createTime: new Date(currentDate.getTime() - 86400000).toISOString(),
+        ip: "192.168.1.100",
+        tags: ["charger", "hardware", "critical"],
+        moduleName: "ThermalControl",
+        errorCode: "E-501",
+        action: "TEMPERATURE_CHECK",
+        description: "Critical temperature threshold exceeded, emergency shutdown initiated",
+        info: {
+          temperature: "78°C",
+          threshold: "75°C",
+          location: "Main converter"
+        }
+      },
+      {
+        id: 1004,
+        timestamp: currentDate.getTime() - 172800000, // 2 days ago
+        createTime: new Date(currentDate.getTime() - 172800000).toISOString(),
+        ip: "192.168.1.100",
+        tags: ["charger", "authentication", "error"],
+        moduleName: "AuthService",
+        errorCode: "E-203",
+        action: "AUTHENTICATE",
+        description: "RFID authentication failed - card not recognized",
+        info: {
+          cardId: "******7890",
+          attemptCount: 3
+        }
+      },
+      {
+        id: 1005,
+        timestamp: currentDate.getTime() - 259200000, // 3 days ago
+        createTime: new Date(currentDate.getTime() - 259200000).toISOString(),
+        ip: "192.168.1.100",
+        tags: ["charger", "firmware", "info"],
+        moduleName: "UpdateManager",
+        errorCode: "I-100",
+        action: "FIRMWARE_UPDATE",
+        description: "Firmware update process interrupted",
+        info: {
+          fromVersion: "v3.1.5",
+          toVersion: "v3.2.1",
+          progress: "68%"
+        }
+      }
+    ];
+    
+    return sampleLogs;
   }
 }
 

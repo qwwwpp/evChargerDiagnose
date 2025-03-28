@@ -102,4 +102,10 @@ export const de = {
   
   // Emoji reactions
   "add_reaction": "Reaktion hinzufügen",
+  
+  // System error logs
+  "ticketDetail.systemErrorLogs.title": "System-Fehlerprotokolle",
+  "ticketDetail.systemErrorLogs.noLogs": "Keine System-Fehlerprotokolle verfügbar",
+  "ticketDetail.systemErrorLogs.additionalInfo": "Zusätzliche Informationen",
+  "ticketDetail.systemErrorLogs.loading": "Lade System-Fehlerprotokolle...",
 };

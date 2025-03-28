@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import type { Ticket, Event, MaintenanceHistory } from "@shared/schema";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { EmojiReactions } from "@/components/EmojiReactions";
+import { SystemErrorLogs } from "@/components/SystemErrorLogs";
 
 interface TicketDetailProps {
   ticket: Ticket;
@@ -349,7 +350,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
           </TabsContent>
 
           <TabsContent value="diagnostics" className="flex-grow overflow-auto p-4 md:p-6 mt-0 border-0">
-            <div className="mb-4">
+            <div className="mb-6">
               <h4 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-4">{t('ticketDetail.diagnosticData')}</h4>
               <div className="bg-slate-50 rounded-lg p-4">
                 {eventsLoading ? (
@@ -408,6 +409,11 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
                   </div>
                 )}
               </div>
+            </div>
+            
+            {/* System Error Logs */}
+            <div className="mb-4">
+              <SystemErrorLogs ticketId={ticket.id} />
             </div>
           </TabsContent>
 
